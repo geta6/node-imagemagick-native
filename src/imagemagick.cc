@@ -447,7 +447,11 @@ void GeneratedBlobAfter(uv_work_t* req) {
     delete context;
 
     if (try_catch.HasCaught())
-        FatalException(try_catch);
+        #if NODE_MODULE_VERSION < 12
+            FatalException(try_catch);
+        #else
+            FatalException(Isolate::GetCurrent(), try_catch);
+        #endif
 }
 
 // input
@@ -642,7 +646,11 @@ void IdentifyAfter(uv_work_t* req) {
     delete req;
 
     if (try_catch.HasCaught())
-        FatalException(try_catch);
+        #if NODE_MODULE_VERSION < 12
+            FatalException(try_catch);
+        #else
+            FatalException(Isolate::GetCurrent(), try_catch);
+        #endif
 }
 
 // input
